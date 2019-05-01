@@ -1,0 +1,95 @@
+<html>
+<head>
+  <title>Checkout Page</title>
+
+  <!-- dataLayer -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push([ //Ventrata has on conversion page, may not be needed
+    {
+    "0": "js",                          
+    "1": "2019-04-26T18:56:27.881Z"    
+    },
+    {
+    "0": "config",
+    "1": "AW-985811703"                 //does Ventra interface have input for Google Ads tracking code? I put this as a variable in GTM
+    }
+  ]);
+  window.dataLayer.push({
+    "event":"checkout",
+		"ecommerce": {
+      "checkout":{
+			"actionField": {"step":1,"option":"Visa" }, //Ventrata only has a single checkout step but could add an additional one when someone moves to payment fields; Could capture optional data
+			"products":  [
+        {
+        "id": "a3ded44c-a880-4822-90a9-29f96875e771",
+        "name": "1 Day Hop On Hop Off Tour",
+        //"brand": "Adult", Ventrata currently has ticket type as 'brand' it is probably better as 'variant'
+        "brand": "San Francisco City Sightseeing",  //most clients this will be a constant, but it might change if they sell other suppliers' products. Brand might also may to differntial margins if need to compute net revenue
+        "category": "San Francisco Hop On Hop Off Tours Bus Tours", //Ventrata uses different versions of category, menu/heading, page title, URL. This is page tittle. Category can be Hierarchical, such as 'Men/Clothing/Shirts', but I do not think it is needed for Ventrata.
+        "variant": "Adult", //use main ticket type
+        "quantity": 1,
+        "price": "64.00"
+        },
+			  {
+				"id": "d7cb516d-27bc-49ba-ac3d-aa43712fa49b",
+				"name": "Bay Cruise",
+				"variant": "Adult",
+        "brand": "San Francisco City Sightseeing",
+				"price": "28.99",
+				"quantity": 1
+			  },
+			  {
+				"id": "d7cb516d-27bc-49ba-ac3d-aa43712fa49b",
+				"name": "Bay Cruise",
+				"variant": "Youth",
+        "brand": "San Francisco City Sightseeing",
+				"price": "23.99",
+				"quantity": 1
+			  },
+			  {
+				"id": "d7cb516d-27bc-49ba-ac3d-aa43712fa49b",
+				"name": "Bay Cruise",
+				"variant": "Child",
+        "brand": "San Francisco City Sightseeing",
+				"price": "17.99",
+				"quantity": 1
+			  }
+			]
+		  }
+		}
+	});
+  </script>
+  <!-- End dataLayer -->
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-WTRX6DK');</script>
+  <!-- End Google Tag Manager -->
+
+</head>
+
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WTRX6DK"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+<h1>Checkout Page</h1>
+
+<h2>Test Pages</h2>
+<ul>
+<li><a href="/">Homepage</a></li>
+<li><a href="/categories.html">Category Page</a></li>
+<li><a href="/products-1.html">Product Page Premium 1 Day</a></li>
+<li><a href="/products-2.html">Product Page 1 Day</a></li>
+<li><a href="/products-3.html">Product Page 2 Day</a></li>
+<li><a href="/checkout.html">Checkout Page</a></li>
+<li><a href="/success.html">Transaction Confirmation Page</a></li>
+</ul>
+
+</body>
+</html>

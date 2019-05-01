@@ -1,0 +1,214 @@
+<html>
+<head>
+  <title>Category Page</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+  <!-- dataLayer -->
+  <!-- Enhanced eCommerce Product Impression Tracking https://developers.google.com/tag-manager/enhanced-ecommerce -->
+  <!-- Example dataLayer from https://www.city-sightseeing.us/categories/san-francisco-hop-on-hop-off-tours -->
+  <script>
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push([ //Ventrata has on conversion page, may not be needed
+    {
+    "0": "js",                          
+    "1": "2019-04-26T18:56:27.881Z"    
+    },
+    {
+    "0": "config",
+    "1": "AW-985811703"                 //does Ventra interface have input for Google Ads tracking code? I put this as a variable in GTM
+    }
+  ]);
+  window.dataLayer.push({
+    "ecommerce" : {
+      "currencyCode" : "USD",
+      "impressions" : [
+      {
+      "id": "28448ebe-6b39-4506-96c6-43a75cea256e",
+      "name": "Premium 1 Day Hop On Hop Off Tour",
+      "list": "Category Page",
+      //"brand": "Adult", Ventrata currently has ticket type as 'brand' it is probably better as 'variant'
+      "brand": "San Francisco City Sightseeing",  //most clients this will be a constant, but it might change if they sell other suppliers' products. Brand might also may to differntial margins if need to compute net revenue
+      "category": "San Francisco Hop On Hop Off Tours Bus Tours", //Ventrata uses different versions of category, menu/heading, page title, URL. This is page tittle. Category can be Hierarchical, such as 'Men/Clothing/Shirts', but I do not think it is needed for Ventrata.
+      "variant": "Adult", //use main ticket type for listing pages
+      "position": 1,
+      "price": "64.00"
+      },
+      {
+      "id": "a3ded44c-a880-4822-90a9-29f96875e771",
+      "name": "1 Day Hop On Hop Off Tour",
+      "list": "Category Page",
+      "brand": "San Francisco City Sightseeing", 
+      "category": "San Francisco Hop On Hop Off Tours Bus Tours",
+      "variant": "Adult",
+      "position": 2,
+      "price": "49.00"
+      },
+      {
+      "id": "33eb3ce9-7e55-4b85-9677-d916b2edf93b",
+      "name": "2 Day Hop On Hop Off Tour",
+      "list": "Category Page",
+      "brand": "San Francisco City Sightseeing", 
+      "category": "San Francisco Hop On Hop Off Tours Bus Tours",
+      "variant": "Adult",
+      "position": 3,
+      "price": "69.00"
+      },
+      {
+      "id": "b21511fc-2442-43ee-a37f-317bbe0db0e6",
+      "name": "Bus and Boat Adventure (1 Day Pass)",
+      "list": "Category Page",
+      "brand": "San Francisco City Sightseeing", 
+      "category": "San Francisco Hop On Hop Off Tours Bus Tours",
+      "variant": "Adult",
+      "position": 4,
+      "price": "79.00"
+      },
+      {
+      "id": "b48eb64e-32f6-405b-8111-11077e6e24c4",
+      "name": "Night Tour",
+      "list": "Category Page",
+      "brand": "San Francisco City Sightseeing", 
+      "category": "San Francisco Hop On Hop Off Tours Bus Tours",
+      "variant": "Adult",
+      "position": 5,
+      "price": "34.00"
+      },
+      {
+        "id": "f2c265f9-6aef-4c9a-ae3f-2da8ed586a49",
+        "name": "Alcatraz Package",
+        "list": "Category Page",
+        "brand": "San Francisco City Sightseeing", 
+        "category": "San Francisco Hop On Hop Off Tours Bus Tours",
+        "variant": "Adult",
+        "position": 1,
+        "price": "139.00"
+      }
+      ]
+    }
+    });
+  </script>
+  <!-- End dataLayer -->
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-WTRX6DK');</script>
+  <!-- End Google Tag Manager -->
+  
+  <!-- Track Product Clicks -->
+  <!-- Adapted from https://www.savio.no/analytics/easier-enhanced-ecommerce-product-promo-tracking -->
+  <script>
+  function item_by_pid(pid) {
+      var products = dataLayer[1]["ecommerce"]["impressions"];
+      for( var i = 0, j = products.length; i < j; i++ ){
+      console.log( products[i]['id']);
+          if( products[i]['id'] == pid ){
+              return products[i];
+          }
+      }
+      return false;
+  }
+  $(function(){
+    $('[data-pid][data-type]').on('click', function( event ){
+       var $this = $( this ),
+        id   = $this.attr( 'data-pid' ),
+        type  = $this.attr( 'data-type' );
+       var product = item_by_pid( id );
+      if( !product ){
+        return;
+      }
+    switch (type) {
+      case 'cart': // Track Add to Cart
+      dataLayer.push({'event':'addToCart', 
+      'ecommerce':{
+        'add':{'actionField':{'list':product.list}, 
+          'products': [{
+            'name':product.name,
+            'id':product.id,  
+            'price':product.price,
+            'brand':product.brand,
+            'category':product.category,
+            'quantity':'1', //need to get from form
+            'position':product.position
+            }]}},
+          'eventCallback':function() {alert("added to cart " + product.name);}});
+      break;
+      case 'link': // Track Link clicks
+      dataLayer.push({'event':'productClick', 
+      'ecommerce':{
+        'click':{'actionField':{'list':product.list}, 
+          'products':[{
+            'name':product.name,
+            'id':product.id,
+            'price':product.price,
+            'brand':product.brand,
+            'category':product.category,
+            'variant':product.variant,
+            'position':product.position
+            }]}},
+          'eventCallback':function() {document.location = $this.attr('href');}});
+      break;
+      case 'promo': // Track Promo/Banner clicks
+      dataLayer.push({'event':'promoClick',
+      'ecommerce':{
+        'promoClick':{'promotions':[{
+          'id':product.id,
+          'name':product.name,
+          'creative':product.creative,
+          'position':product.position
+          }]}},
+        'eventCallback':function(){document.location = product.url;}});
+      break;
+      case 'wishlist': // Track Add to Wishlist clicks
+      dataLayer.push({'event':'addToWishlist', 'list':product.list, 'name':product.name, 'quantity':'1'});
+        break;
+      case 'compare': // Track Add to Compare clicks
+      dataLayer.push({'event':'addToCompare', 'list':product.list, 'name':product.name, 'quantity':'1'});
+      break;
+      }
+    });
+  });
+  </script>
+  <!--End Track Product Clicks -->
+</head>
+
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WTRX6DK"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<h1>Category Page (multiple products)</h1>
+
+<h2>Test Product Clicks</h2>
+<ul>
+  <li><a href="/products-1.html" data-pid="28448ebe-6b39-4506-96c6-43a75cea256e" data-type="link">Premium 1 Day Hop On Hop Off Tour</a></li>
+  <li><a href="/products-2.html" data-pid="a3ded44c-a880-4822-90a9-29f96875e771" data-type="link">1 Day Hop On Hop Off Tour</a></li>
+  <li><a href="/products-3.html" data-pid="33eb3ce9-7e55-4b85-9677-d916b2edf93b" data-type="link">2 Day Hop On Hop Off Tour</a></li>
+</ul>
+
+
+<h2>Test Add to Cart</h2>
+<ul>
+  <li><button type="button" data-pid="28448ebe-6b39-4506-96c6-43a75cea256e" data-type="cart">Premium 1 Day Hop On Hop Off Tour</a></li>
+  <li><button type="button" data-pid="a3ded44c-a880-4822-90a9-29f96875e771" data-type="cart">1 Day Hop On Hop Off Tour</a></li>
+  <li><button type="button" data-pid="33eb3ce9-7e55-4b85-9677-d916b2edf93b" data-type="cart">2 Day Hop On Hop Off Tour</a></li>
+</ul>
+
+
+<h2>Test Pages</h2>
+<ul>
+<li><a href="/dl/">Homepage</a></li>
+<li><a href="/dl/categories.html">Category Page</a></li>
+<li><a href="/dl/products-1.html">Product Page Premium 1 Day</a></li>
+<li><a href="/dl/products-2.html">Product Page 1 Day</a></li>
+<li><a href="/dl/products-3.html">Product Page 2 Day</a></li>
+<li><a href="/dl/checkout.html">Checkout Page</a></li>
+<li><a href="/dl/success.html">Transaction Confirmation Page</a></li>
+</ul>
+
+
+</body>
+</html>
